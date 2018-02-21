@@ -1,2 +1,2 @@
-# projetoengsoftcc
-Projeto Eng Software TCC
+# projetoeng
+Engenharia de Software Projeto - TCC
