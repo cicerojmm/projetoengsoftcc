@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="utf-8" />
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+	<title>Cadastro Orientador Externo</title>
+
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+	<script src="../Scripts/login.js"></script>
+	<link rel="stylesheet" href="../css/login.css">
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-login">
+
+					<div class="panel-body">
+						<div class="row">
+
+							<form id="login-form" action="https://phpoll.com/login/process" method="post" role="form" style="display: block;">
+
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label for="nome">Nome</label>
+										<input type="input" class="form-control" id="nome"  placeholder="Digite um nome">							
+									</div>
+									<div class="form-group">
+										<label for="area">Area de Pesquisa</label>
+										<select class="custom-select form-control" id="area">
+											<option selected>Escolha uma Àrea</option>
+											<option value="1">Inteligencia de Negocios</option>
+											<option value="2">Inteligencia Artificial</option>
+											<option value="3">Computação nas Nuvens</option>
+											<option value="4">Engenharia de Software</option>
+										</select>
+
+
+									</div>
+									<div class="form-group">
+										<label for="subtitulo">Instituição</label>
+										<select class="custom-select form-control" id="area">
+											<option selected>Escolha uma Instituição</option>
+											<option value="1">IFG</option>
+											<option value="2">UFG</option>
+											<option value="3">Outro Lugar</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="subtitulo">Sexo</label>
+										<select class="custom-select form-control" id="area">
+											<option selected>Escolha um...</option>
+											<option value="1">Masculino</option>
+											<option value="2">Feminino</option>
+											<option value="3">Outros</option>
+										</select>
+									</div>
+									<div class="form-group">
+											<label for="subtitulo">Data Nascimento</label>
+											<select class="custom-select form-control" id="area">
+												<option selected>Escolha um...</option>
+												<option value="1">Masculino</option>
+												<option value="2">Feminino</option>
+												<option value="3">Outros</option>
+											</select>
+										</div>
+								</div>
+								<div class="form-row">
+									<div class="col-md-6 "></div>
+									<div class="col-md-2 "></div>
+									<div class="col-md-2 ">
+										<button type="button" name="limpar" id="limpar" class="btn btn-danger">Limpar</button>
+									</div>
+									<div class="col-md-2 ">
+										<button type="button" name="salvar" id="salvar" class="btn btn-success">Salvar</button>
+									</div>
+
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+
+</html>
