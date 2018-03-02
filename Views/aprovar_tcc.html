@@ -10,8 +10,10 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 
-	<script src="../Scripts/login.js"></script>
+	<script src="../Scripts/aprovar_tcc.js"></script>
 	<link rel="stylesheet" href="../css/login.css">
+
+
 </head>
 
 <body>
@@ -35,8 +37,28 @@
 								</div>
 								<div class="col-lg-12">
 									<div class="form-group">
-										<label for="anexo">Anexo</label>
-										<input type="file" class="form-control-file" id="anexo">
+										<table class="table">
+											<thead>
+												<tr>
+													<th scope="col">Anexo</th>
+													<th scope="col">Tipo</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>
+														<a href="http://www.mackenzie.br/fileadmin/Graduacao/CCBS/Cursos/Ciencias_Biologicas/1o_2012/Biblioteca_TCC_Lic/2009/2o_Semestre/Karen_e_Priscila.pdf">tcc.pdf</a>
+													</td>
+													<td>PDF</td>
+												</tr>
+												<tr>
+													<td>
+														<a href="http://www.epex.eb.mil.br/images/publicacoes/Revista_Nega/files/thumb/155.jpg">termo_aceite.png</a>
+													</td>
+													<td>PDF</td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
 									<div class="form-group">
 										<label for="area">Area Pesquisa</label>
@@ -52,7 +74,7 @@
 									</div>
 									<div class="form-group">
 										<label for="subtitulo">Orientador</label>
-										<select class="custom-select form-control" id="area">
+										<select class="custom-select form-control" id="orientador">
 											<option selected>Escolha um orientador</option>
 											<option value="1">Nenhum</option>
 											<option value="2">Eu não</option>
@@ -61,23 +83,23 @@
 										</select>
 									</div>
 									<div class="form-group">
-										<label for="subtitulo">Resumo</label>
-										<textarea class="form-control" id="subtitulo" placeholder="Digite um resumo">
+										<label for="resumo">Resumo</label>
+										<textarea class="form-control" id="resumo" placeholder="Digite um resumo">
 									</textarea>
 									</div>
-								</div>
-								<div class="form-row">
-									<div class="col-md-6 "></div>
-									<div class="col-md-2 "></div>
-									<div class="col-md-2 ">
-										<button type="button" name="limpar" id="limpar" class="btn btn-danger">Limpar</button>
-									</div>
-									<div class="col-md-2 ">
-										<button type="button" name="salvar" id="salvar" class="btn btn-success">Salvar</button>
-									</div>
 
-								</div>
+									<div class="form-row">
+										<div class="col-md-6 "></div>
+										<div class="col-md-2 "></div>
+										<div class="col-md-2 ">
+											<button type="button" name="cancelar" id="cancelar" class="btn btn-danger">Cancelar</button>
+										</div>
+										<div class="col-md-2 ">
+											<button type="button" name="aprovar" id="aprovar" class="btn btn-success">Aprovar</button>
+										</div>
 
+									</div>
+								</div>
 							</form>
 						</div>
 					</div>
