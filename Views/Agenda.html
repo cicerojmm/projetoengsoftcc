@@ -9,11 +9,12 @@
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
+    
     <!-- Latest compiled and minified JavaScript -->
 	
 	<script src="../Scripts/jquery.bootgrid.js"></script>
 	<script src="../Scripts/jquery-2.1.3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 	
 	<link href="../content/jquery.bootgrid.css" rel="stylesheet" />
 	<link href="../content/timeline.css" rel="stylesheet" />
@@ -27,6 +28,7 @@
 	<link rel="stylesheet" href="../content/datepicker.css" />
 	<script src="../Scripts/bootstrap-datepicker.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>
 	<link href="../content/fullcalendar.css" rel="stylesheet" />
 	<link href="../content/fullcalendar.print.css" rel='stylesheet' media='print' / />
 	<script src="../content/lib/moment.min.js"></script>
@@ -52,19 +54,19 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
                 <h4 class="modal-title" id="EditModalLabel">Criar Evento</h4>
             </div>
-            <form id="create-form">
+            <form id="create-form" role="form" data-toggle="validator" >
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="question">Descrição</label>
-                        <input type="text" class="form-control" id="desc" name="desc">
+                        <input type="text" class="form-control" id="desc" name="desc" data-error="Descrição requirida" required>
                     </div>
                     <div class="form-group">
                         <label for="date_end">Data do evento</label>
-                        <input type="text" class="span2 datepicker form-control" name="date_End" data-date-format="dd/mm/yyyy" id="date_End">
+                        <input type="text" class="span2 datepicker form-control" name="date_End" data-date-format="dd/mm/yyyy" id="date_End" data-error="Data requirida" required>
                     </div>
                     <div class="form-group">
                         <label for="question">Horario</label>
-                        <input type="time" class="form-control" id="horario" name="horario">
+                        <input type="time" class="form-control" id="horario" name="horario" data-error="Horario requirido" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -120,58 +122,27 @@
                 }).done(function (response) {
 
                     createReplye(response);
-                    $("#edit-form").validate({
+                    $("#create-form").validate({
 
                         // Specify the validation rules
                         rules: {
-                            desc_ed: "required",
-                            date_End_ed: "required",
-                            horario_ed: "required"
+                            desc: "required",
+                            date_End: "required",
+                            horario: "required"
                         },
 
                         // Specify the validation error messages
                         messages: {
-                            desc_ed: "Por favor insira uma descrição",
-                            date_End_ed: "Por favor insira uma data para o evento",
-                            horario_ed: "Por favor insira um horario"
+                            desc: "Por favor insira uma descrição",
+                            date_End: "Por favor insira uma data para o evento",
+                            horario: "Por favor insira um horario"
 
                         },
-
                         submitHandler: function (form) {
-
-                            var send = {
-                                event: $('#desc_ed').val(),
-                                date: $('#date_End_ed').val(),
-                                hour: $('#horario_ed').val()
-                            };
-
-
-                            $.ajax({
-                                url: 'http://localhost/~iTSangar/fieg/v2/api/calendars/'+$('#idCalendar').val(),
-                                type: 'POST',
-                                data: send,
-                                dataType: "json"
-                            }).done(function (response) {
-                                debugger
-                                if (!response.error) {
-                                    bootbox.dialog({
-                                        title: "Messege",
-                                        message: "Salvo"
-                                    });
-
-                                    $('#modalReply').modal('hide');
-                                    $('#modalReply').remove();
-                                    document.getElementById("create-form").reset();
-                                    $('#calendar').fullCalendar( 'refetchEvents' );
-                                } else {
-
-                                    bootbox.dialog({
-                                        title: "Mensagen",
-                                        message: "Falhou!"
-                                    });
-                                }
-                            });
-                            return false;
+                                bootbox.dialog({
+                                    title: "Mensagen",
+                                    message: "Salvo!"
+                                });
                         }
                     });
                 });
@@ -179,103 +150,16 @@
             }
         });
 
-        $("#create-form").validate({
-
-            // Specify the validation rules
-            rules: {
-                desc: "required",
-                date_End: "required",
-                horario: "required"
-            },
-
-            // Specify the validation error messages
-            messages: {
-                desc: "Por favor insira uma descrição",
-                date_End: "Por favor insira uma data para o evento",
-                horario: "Por favor insira um horario"
-
-            },
-
-            submitHandler: function (form) {
-
-                var send = {
-                    event: $('#desc').val(),
-                    date: $('#date_End').val(),
-                    hour: $('#horario').val()
-                };
-
-
-                $.ajax({
-                    url: 'http://localhost/~iTSangar/fieg/v2/api/calendars',
-                    type: 'POST',
-                    data: send,
-                    dataType: "json"
-                }).done(function (response) {
-                    debugger
-                    if (!response.error) {
-                        bootbox.dialog({
-                            title: "Messege",
-                            message: response.message
-                        });
-
-                        $('#myModal').modal('hide');
-
-                        document.getElementById("create-form").reset();
-                        $('#calendar').fullCalendar( 'refetchEvents' );
-                    } else {
-
-                        bootbox.dialog({
-                            title: "Messege",
-                            message: "fail"
-                        });
-                    }
+        $(document).on('click','#submitNew', function(){
+                event.preventDefault();
+                if (!($('#submitNew').hasClass("disabled"))) {
+                    $('#myModal').closest('form').find("input[type=text], textarea").val("");
+                   $('#myModal').modal('hide');
+                    bootbox.dialog({
+                    title: "Mensagen",
+                    message: "Salvo!"
                 });
-                return false;
             }
-        });
-
-        $(document).on('click','#deleteEvent', function(){
-            bootbox.dialog({
-                message: "Certeza que quer deletar este evento?",
-                title: "Mensagem",
-                buttons: {
-                    cancel: {
-                        label: "cancelar",
-                        className: "btn-default",
-                        callback: function() {
-
-                        }
-                    },
-                    main: {
-                        label: "sim",
-                        className: "btn-primary",
-                        callback: function() {
-                            $.ajax({
-                                url: 'http://localhost/~iTSangar/fieg/v2/api/calendars/delete/'+$('#idCalendar').val(),
-                                type: 'POST',
-                                dataType: "json"
-                            }).done(function (response) {
-                                debugger
-                                if (!response.error) {
-                                    bootbox.dialog({
-                                        title: "Messege",
-                                        message: response.message
-                                    });
-                                    $('#modalReply').modal('hide');
-                                    $('#modalReply').remove();
-                                    $('#calendar').fullCalendar( 'refetchEvents' );
-                                } else {
-
-                                    bootbox.dialog({
-                                        title: "Mensagem",
-                                        message: "Falhou"
-                                    });
-                                }
-                            });
-                        }
-                    }
-                }
-            });
         });
 
         function createReplye(data) {
