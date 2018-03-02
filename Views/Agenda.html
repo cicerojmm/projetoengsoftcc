@@ -32,7 +32,7 @@
 	<link href="../content/fullcalendar.css" rel="stylesheet" />
 	<link href="../content/fullcalendar.print.css" rel='stylesheet' media='print' / />
 	<script src="../content/lib/moment.min.js"></script>
-	<script src="../Scripts/fullcalendar.js"></script>
+	<script src="https://fullcalendar.io/releases/fullcalendar/3.8.2/fullcalendar.min.js"></script>
 	<script src="../Scripts/lang-all.js"></script>
 
 </head>
@@ -57,8 +57,8 @@
             <form id="create-form" role="form" data-toggle="validator" >
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="question">Descrição</label>
-                        <input type="text" class="form-control" id="desc" name="desc" data-error="Descrição requirida" required>
+                        <label for="question">Título</label>
+                        <input type="text" class="form-control" id="titulo" name="titulo" data-error="Título requirido" required>
                     </div>
                     <div class="form-group">
                         <label for="date_end">Data do evento</label>
@@ -67,6 +67,10 @@
                     <div class="form-group">
                         <label for="question">Horario</label>
                         <input type="time" class="form-control" id="horario" name="horario" data-error="Horario requirido" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="question">Descrição</label>
+                        <input type="textarea" class="form-control" id="desc" name="desc" data-error="Descrição requirida">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -78,82 +82,84 @@
     </div>
 </div>
 
+<div class="modal fade" id="modelEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                <h4 class="modal-title" id="showModalLabel">Detalhe Evento</h4>
+            </div>
+            <form id="show-form" role="form" >
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="question">Título</label>
+                        <input type="text" class="form-control" id="titulo_ed" name="titulo_ed" data-error="Título requirida" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_end">Data do evento</label>
+                        <input type="text" class="span2 datepicker form-control" name="date_End_ed" data-date-format="dd/mm/yyyy" id="date_End_ed" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="question">Horario</label>
+                        <input type="time" class="form-control" id="horario_ed" name="horario_ed" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="question">Descrição</label>
+                        <input type="textarea" class="form-control" id="desc_ed" name="desc_ed" data-error="Descrição requirida" disabled>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-
-<!--<div class="modal-dialog">-->
-<!--    <div class="modal-content">-->
-<!--        <div class="modal-header">-->
-<!--            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>-->
-<!--            <h4 class="modal-title" id="EditModalLabel">Editar Evento</h4>-->
-<!--        </div>-->
-<!--        <form id="edit-form">-->
-<!--            <div class="modal-body">-->
-<!--                <div class="form-group">-->
-<!--                    <label for="question">Descrição</label>-->
-<!--                    <input type="text" class="form-control" id="desc-ed" name="desc-ed">-->
-<!--                </div>-->
-<!--                <div class="form-group">-->
-<!--                    <label for="date_end">Data do evento</label>-->
-<!--                    <input type="text" class="span2 datepicker form-control" name="date_End-ed" data-date-format="dd/mm/yyyy" id="date_End-ed">-->
-<!--                </div>-->
-<!--                <div class="form-group">-->
-<!--                    <label for="question">Horario</label>-->
-<!--                    <input type="time" class="form-control" id="horario-ed" name="horario-ed">-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="modal-footer">-->
-<!--                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>-->
-<!--                <input type="submit" id="submitNew" name="submit" class="btn btn-primary" value="Save" />-->
-<!--            </div>-->
-<!--        </form>-->
-<!--    </div>-->
-<!--</div>-->
 <script>
     $(document).ready(function() {
         $('.datepicker').datepicker();
         $('#calendar').fullCalendar({
             lang: 'pt-br',
-            events: 'http://localhost/~iTSangar/fieg/v2/api/calendars',
+              events: [
+                {
+                  id:1,
+                  title: 'Reunião TCC',
+                  start: '2018-03-05',
+                  data_evento: '2018-03-05',
+                  horario: '19:20',
+                  desc:'Reunião sobre correções'
+                },
+                {
+                  id:2,
+                  title: 'Debater ideias',
+                  start: '2018-03-14',
+                  data_evento: '2018-03-14',
+                  horario: '20:10',
+                  desc:'Novas ideias sobre o TCC'
+                }
+          ],
             eventClick: function(event){
-                $.ajax({
-                    url: 'http://localhost/~iTSangar/fieg/v2/api/calendars/' + event._id,
-                    type: 'GET',
-                    dataType: "json"
-                }).done(function (response) {
-
-                    createReplye(response);
-                    $("#create-form").validate({
-
-                        // Specify the validation rules
-                        rules: {
-                            desc: "required",
-                            date_End: "required",
-                            horario: "required"
-                        },
-
-                        // Specify the validation error messages
-                        messages: {
-                            desc: "Por favor insira uma descrição",
-                            date_End: "Por favor insira uma data para o evento",
-                            horario: "Por favor insira um horario"
-
-                        },
-                        submitHandler: function (form) {
-                                bootbox.dialog({
-                                    title: "Mensagen",
-                                    message: "Salvo!"
-                                });
-                        }
-                    });
-                });
-               //$('#myCalendar').fullCalendar('removeEvents',event._id);
+                $('#titulo_ed').val(event.title);
+                $('#desc_ed').val(event.desc);
+                $('#date_End_ed').val(event.data_evento);
+                $('#horario_ed').val(event.horario);
+                $('#modelEdit').modal('show');
             }
         });
 
         $(document).on('click','#submitNew', function(){
                 event.preventDefault();
                 if (!($('#submitNew').hasClass("disabled"))) {
-                    $('#myModal').closest('form').find("input[type=text], textarea").val("");
+                    event_add  = {
+                      title: $('#titulo').val(),
+                      start: $('#date_End').val(),
+                      data_evento: $('#date_End').val(),
+                      horario: $('#horario').val(),
+                      desc: $('#desc').val()
+                    };
+                    $('#calendar').fullCalendar('addEvent', event_add);
+                    $('#create-form')[0].reset();
                    $('#myModal').modal('hide');
                     bootbox.dialog({
                     title: "Mensagen",
@@ -162,139 +168,6 @@
             }
         });
 
-        function createReplye(data) {
-            debugger
-            $('#modalReply').remove();
-            var d =  data.event_day;
-            d = d.substr(0, 10).split("-");
-
-            d = d[2] + "/" + d[1] + "/" + d[0];
-            $('body').append(
-                '<div class="modal fade " id="modalReply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
-                    '<div class="modal-dialog">' +
-                        '<div class="modal-content">' +
-                             '<div class="modal-header">' +
-                                '<ul id="mytabss" class="nav nav-pills" role="tablist">'+
-                                    '<li role="presentation " class="active"><a href="#tab1" id="hopTabs1" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Detalhes</a></li>'+
-                                    '<li role="presentation " class=""><a href="#tab2" id="hopTabs2" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Editar</a></li>'+
-                                '</ul>' +
-                             '<div/>'+
-                            '<div id="" class="tab-content">'+
-                                '<div role="tabpanel" class="tab-pane fade in active" id="tab1" aria-labelledby="hopTabs1">' +
-                                   // '<div class="modal-dialog">' +
-                                        //'<div class="modal-content">' +
-                                           // '<div class="modal-header">' +
-                                             //   '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-                                             //   '<h4 class="modal-title" id="myModalLabel">Resposta de Evento</h4>' +
-                                            //'</div>' +
-                                        '<div class="modal-body">' +
-                                            '<h3>'+data.event+' - '+d+'</h3>' +
-                                            '<ul id="myTab" class="nav nav-tabs" role="tablist">'+
-
-                                            '</ul>' +
-                                            '<div id="myTabContent" class="tab-content">'+
-                                            '</div>'+
-                                        '</div>' +
-                                        '<div class="modal-footer">' +
-                                            '<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>' +
-                                           // '</div>' +
-                                        '</div>' +
-                                   // '</div>' +
-                                '</div>'+
-                                '<div role="tabpanel" class="tab-pane fade in" id="tab2" aria-labelledby="hopTabs2">' +
-                                        '<div class="modal-body">' +
-                                                '<div class="modal-header">'+
-                                                    '<h4 class="modal-title" id="EditModalLabel">Editar Informações</h4>'+
-                                                '</div>'+
-                                                '<form id="edit-form">'+
-                                                    '<div class="modal-body">'+
-                                                        '<input type="hidden" id="idCalendar" name="idCalendar" value="'+data.id+'">'+
-                                                        '<div class="form-group">'+
-                                                            '<label for="question">Descrição</label>'+
-                                                            '<input type="text" class="form-control" id="desc_ed" name="desc_ed" value="'+data.event+'">'+
-                                                        '</div>'+
-                                                        '<div class="form-group">'+
-                                                            '<label for="date_end">Data do evento</label>'+
-                                                            '<input type="text" class="span2 datepicker form-control" value="'+d+'" name="date_End_ed" data-date-format="dd/mm/yyyy" id="date_End_ed">'+
-                                                        '</div>'+
-                                                        '<div class="form-group">'+
-                                                            '<label for="question">Horario</label>'+
-                                                            '<input type="time" class="form-control" id="horario_ed" value="'+data.event_hour+'" name="horario_ed">'+
-                                                        '</div>'+
-
-                                                            '<div class="modal-footer">'+
-                                                                '<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>'+
-                                                                '<button type="button" class="btn btn-danger" id="deleteEvent">Deletar</button>'+
-                                                                '<input type="submit" id="submitNew" name="submit" class="btn btn-primary" value="Save" />'+
-                                                            '</div>'+
-                                                    '</div>'+
-                                                '</form>'+
-                                        '</div>'+
-                                //'</div>'+
-                                '</div>'+
-                            '</div>'+
-                        '</div>'+
-                    '</div>'+
-                '</div>');
-
-                $('#myTab').append('<li role="presentation " class="active"><a href="#Name1" id="hopTab1" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Sim</a></li>');
-                $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="Name1" aria-labelledby="hopTab1">' +
-                '<table class="table table-condensed table-hover table-striped bootgrid-table">' +
-                '<thead>' +
-                '<tr>' +
-                '<th class="col-xs-3""></th><th class="col-xs-8">User</th>' +
-                '</tr>' +
-                '</thead>' +
-                '<tbody class="table" id="replysim">' +
-
-                '</tbody>' +
-                '</table>' +
-                '</div>');
-            $('#myTab').append('<li role="presentation " class=""><a href="#Name2" id="hopTab2" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Nao</a></li>');
-                $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in" id="Name2" aria-labelledby="hopTab2">' +
-                '<table class="table table-condensed table-hover table-striped bootgrid-table">' +
-                '<thead>' +
-                '<tr>' +
-                '<th class="col-xs-3""></th><th class="col-xs-8">User</th>' +
-                '</tr>' +
-                '</thead>' +
-                '<tbody class="table" id="replynao">' +
-
-                '</tbody>' +
-                '</table>' +
-                '</div>');
-            $('#myTab').append('<li role="presentation " class=""><a href="#Name3" id="hopTab3" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Talvez</a></li>');
-                $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in " id="Name3" aria-labelledby="hopTab3">' +
-                '<table class="table table-condensed table-hover table-striped bootgrid-table">' +
-                '<thead>' +
-                '<tr>' +
-                '<th class="col-xs-3""></th><th class="col-xs-8">User</th>' +
-                '</tr>' +
-                '</thead>' +
-                '<tbody class="table" id="replytalvez">' +
-
-                '</tbody>' +
-                '</table>' +
-                '</div>');
-            var option;
-            for (var i = 0; i < data.responses.length ; i++) {
-                switch (data.responses[i].option){
-                    case "nao":
-                        option = "nao";
-                        break;
-                    case "talvez":
-                        option = "talvez";
-                        break;
-                    case "sim":
-                        option = "sim";
-                        break;
-
-                }
-                $('#reply'+option).append('<tr><td class="col-xs-3"><img src="' + data.responses[i].user_image + '" style="width: 50px;height: 50px"/></td><td class="col-xs-9">' + data.responses[i].user + '</td></tr>');
-            }
-
-            $('#modalReply').modal('show');
-        }
     });
 </script>
 
