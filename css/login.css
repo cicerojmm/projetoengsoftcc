@@ -54,7 +54,7 @@ body {
 	border-color: #ccc;
 }
 .btn-login {
-	background-color: #59B2E0;
+	background-color: #05aa00;
 	outline: none;
 	color: #fff;
 	font-size: 14px;
@@ -67,7 +67,7 @@ body {
 .btn-login:hover,
 .btn-login:focus {
 	color: #fff;
-	background-color: #53A3CD;
+	background-color: #0cf704;
 	border-color: #53A3CD;
 }
 .forgot-password {
