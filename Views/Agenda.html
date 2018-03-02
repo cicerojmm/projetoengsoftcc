@@ -151,14 +151,18 @@
         $(document).on('click','#submitNew', function(){
                 event.preventDefault();
                 if (!($('#submitNew').hasClass("disabled"))) {
+                    data_split = $('#date_End').val().split('/')
+                    dia = data_split[0]
+                    mes = data_split[1]
+                    ano = data_split[2]
                     event_add  = {
                       title: $('#titulo').val(),
-                      start: $('#date_End').val(),
+                      start: ano+'-'+mes+'-'+dia,
                       data_evento: $('#date_End').val(),
                       horario: $('#horario').val(),
                       desc: $('#desc').val()
                     };
-                    $('#calendar').fullCalendar('addEvent', event_add);
+                    $('#calendar').fullCalendar('renderEvent', event_add);
                     $('#create-form')[0].reset();
                    $('#myModal').modal('hide');
                     bootbox.dialog({
